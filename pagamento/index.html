@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pagamento — Carteira de Identidade Pet</title><link rel="stylesheet" href="/assets/site.css"><style>body{padding:30px 20px}.handoff{max-width:480px;margin:40px auto;background:#fff;border:1px solid #dce4db;border-radius:24px;padding:30px}.handoff h1{font-size:28px;margin:25px 0 14px}.handoff p{color:#617168;margin:15px 0}.handoff .btn{width:100%}.fee{background:#edf3e5;border-radius:14px;padding:18px;margin:24px 0}.fee strong{display:block;font-size:30px}.handoff small{display:block;color:#617168;margin-top:15px}</style><!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1598247598188716');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+</head><body>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1598247598188716&ev=PageView&noscript=1" alt=""></noscript><main class="handoff"><a href="/"><img src="/assets/carteira-identidade-pet.svg" width="220" alt="Carteira de Identidade Pet"></a><h1>Finalize a identificação do seu pet.</h1><p id="pet-summary">Continue para o checkout da Cakto para escolher como pagar.</p><div class="fee">Taxa única de emissão<strong>R$ 19,90</strong><span>Pagamento único.</span></div><a id="checkout-link" class="btn" href="https://pay.cakto.com.br/dseki83">Sim, pagar a taxa única</a><small>O pagamento é realizado no checkout da Cakto. O cadastro só não confirma o pagamento.</small><p><a href="/registro/">← Voltar ao cadastro</a></p></main><script src="/assets/checkout.js"></script><script>document.getElementById('checkout-link').href=window.PetCheckout.buildUrl();try{const pet=JSON.parse(sessionStorage.getItem('petRegistration')||'null');if(pet&&pet.name)document.getElementById('pet-summary').textContent='Continue para o checkout da Cakto para pagar a taxa de emissão dos documentos de '+pet.name+'.';}catch{}</script></body></html>

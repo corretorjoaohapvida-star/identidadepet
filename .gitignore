@@ -1,6 +1,24 @@
+# Credenciais e configuração local
 .env
 .env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
 .vercel/
+
+# Dependências e ferramentas locais
 node_modules/
 .tools/
+.DS_Store
+Thumbs.db
 *.log
+
+# Prévias, cópias e configuração administrativa do checkout
+checkout-minimalista-previa.html
+checkout-cakto-minimalista.json
+*.zip
+*.bak
+*backup*
+*screenshot*

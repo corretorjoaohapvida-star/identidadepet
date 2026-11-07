@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<head>
+    
+    <script>
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'src', 'sck'].forEach(param => {
+      if (params.get(param)) {
+        sessionStorage.setItem(param, params.get(param));
+      }
+    });
+  })();
+</script>
+    
+  <meta charset="utf-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=d03c80a7-4162-4686-97d3-857f28c03832
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <title>Cadastro Pet - Carteira de Identidade Pet</title>
+  <meta name="description" content="Personalize os documentos de identificação do seu pet, com QR Code e perfil digital.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #2d7a3a;
+      --primary-hover: #23632f;
+      --text-dark: #292929;
+      --text-muted: #666666;
+      --bg-light: #f8faf9;
+      --border-color: #e5e7eb;
+      --white: #ffffff;
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      color: var(--text-dark);
+      background-color: var(--bg-light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER */
+    header {
+      width: 100%;
+      background: var(--white);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header .content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-container img.site-logo {
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .btn-voltar-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .btn-voltar-home:hover {
+      color: var(--primary);
+    }
+
+    /* CONTAINER & PROGRESS BAR */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px 80px;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      max-width: 520px;
+      margin-bottom: 25px;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: var(--border-color);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 8.33%;
+      background: var(--primary);
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+
+    /* STEP CARDS */
+    .step-card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+      padding: 35px 30px;
+      display: none;
+      animation: fadeIn 0.25s ease forwards;
+    }
+
+    .step-card.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-card h2 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 8px;
+      text-align: center;
+      color: var(--text-dark);
+    }
+
+    .step-card p.subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    /* OPÇÕES DE ESPÉCIE E SEXO */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin: 25px 0 10px;
+    }
+
+    .option-item {
+      border: 2px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      background: var(--white);
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .option-item:hover {
+      border-color: #a3cca8;
+      background: #fafdfb;
+    }
+
+    .option-item.selected {
+      border-color: var(--primary);
+      background: #eaf4ed;
+    }
+
+    .option-item .icon {
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .option-item .icon img.species-icon-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .option-item .icon svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    .option-item p {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .option-item .check {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--white);
+      transition: all 0.2s;
+    }
+
+    .option-item.selected .check {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .option-item.selected .check svg {
+      fill: var(--white);
+      width: 12px;
+      height: 12px;
+    }
+
+    /* INPUTS & SELECTS */
+    .textBox {
+      margin: 20px 0 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .textBox input, 
+    select.custom-select {
+      width: 100%;
+      padding: 15px 18px;
+      font-size: 1rem;
+      font-family: inherit;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      outline: none;
+      background: var(--white);
+      transition: border-color 0.2s;
+    }
+
+    .textBox input:focus, 
+    select.custom-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(45, 122, 58, 0.12);
+    }
+
+    .add-more {
+      display: inline-block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--primary);
+      cursor: pointer;
+      margin-top: 4px;
+      margin-bottom: 12px;
+    }
+
+    .do-empty {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 14px 0 20px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .do-empty .check-box-custom {
+      width: 20px;
+      height: 20px;
+      border: 1.5px solid #bbb;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--white);
+      transition: all 0.2s;
+    }
+
+    .do-empty.checked .check-box-custom {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .do-empty.checked .check-box-custom svg {
+      fill: var(--white);
+      display: block;
+    }
+
+    .do-empty .check-box-custom svg {
+      display: none;
+      width: 12px;
+      height: 12px;
+    }
+
+    .do-empty p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* UPLOAD FOTO */
+    .upload-container {
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .upload-box {
+      width: 170px;
+      height: 170px;
+      border: 2px dashed #a3cca8;
+      border-radius: 20px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: #fafdfb;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    .upload-box:hover {
+      border-color: var(--primary);
+      background: #eaf4ed;
+    }
+
+    .upload-box img#preview-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .upload-box .upload-prompt {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .upload-box .upload-prompt svg {
+      width: 38px;
+      height: 38px;
+      stroke: var(--primary);
+    }
+
+    input[type="file"]#pet-photo-input {
+      display: none;
+    }
+
+    .totalFans {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: #eaf4ed;
+      border: 1px solid #c2e2c8;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin: 15px 0 20px;
+      font-size: 0.88rem;
+      color: var(--text-dark);
+    }
+
+    .totalFans.active {
+      display: flex;
+    }
+
+    .totalFans svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--primary);
+      flex-shrink: 0;
+    }
+
+    /* BOTÕES */
+    .step-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    button.btn-prev {
+      flex: 1;
+      padding: 14px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      background: var(--white);
+      color: var(--text-dark);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+
+    button.btn-prev:hover {
+      background: #f0f0f0;
+    }
+
+    button.btn-next,
+    button.btn-emitir-custom {
+      flex: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 22px;
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 4px 12px rgba(45, 122, 58, 0.2);
+      transition: all 0.2s;
+    }
+
+    button.btn-next:hover,
+    button.btn-emitir-custom:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    button.btn-next svg,
+    button.btn-emitir-custom svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--white);
+    }
+  .emission-fee{margin-top:24px;padding:20px;border:1px solid #dce4db;border-radius:16px;background:#f2f7e8;color:#173e32}.emission-fee>span{display:block;font-size:.85rem;font-weight:700}.emission-fee>strong{display:block;margin:5px 0;font-size:1.9rem;letter-spacing:-.04em}.emission-fee>p{font-size:.8rem;line-height:1.6;color:#52685b}
+</style>
+<style>
+/* Visual Carteira de Identidade Pet */
+:root{--primary:#245c46;--primary-hover:#173e32;--text-dark:#173e32;--text-muted:#52685b;--bg-light:#f6f7f2;--border-color:#dce4db;--primary-teal:#173e32;--primary-teal-hover:#245c46;--pix-green:#245c46;--badge-green-bg:#dcf39a;--badge-green-text:#173e32;--text-gray:#52685b;--bg-page:#f6f7f2;--border-card:#dce4db;--border-gray:#dce4db}
+body{line-height:1.6;-webkit-font-smoothing:antialiased}button,input,select{font-family:inherit}button,a,input,select{-webkit-tap-highlight-color:transparent}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #245c46;outline-offset:4px}input::placeholder{color:#68786d;opacity:1}input:disabled{background:#f0f3ed;color:#68786d}
+.journey-intro{width:100%;max-width:520px;margin:0 auto 28px;text-align:center}.journey-eyebrow{display:inline-block;padding:5px 12px;border:1px solid #dce4db;border-radius:100px;background:#fff;color:#245c46;font-size:.75rem;font-weight:800;letter-spacing:.04em}.journey-intro h1{font-size:clamp(1.65rem,4vw,2.2rem);line-height:1.2;letter-spacing:-.045em;margin:14px 0 10px;text-wrap:balance}.journey-intro p{color:#52685b;font-size:.95rem;line-height:1.65}.journey-note{max-width:480px;margin:20px auto 0;color:#52685b;text-align:center;font-size:.8rem;line-height:1.65}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+header{background:#f6f7f2;border-color:#dce4db}header .content{max-width:1040px;height:80px;gap:12px}.logo-container{min-width:0}.logo-container img.site-logo{max-width:100%;width:190px;height:44px}.btn-voltar-home{flex-shrink:0;font-size:.8rem;min-height:44px;align-items:center;color:#52685b}main{justify-content:flex-start;padding:44px 20px 64px}.progress-bar-container{margin-bottom:18px}.progress-info{font-size:.78rem;color:#52685b;margin-bottom:10px}#step-label{color:#173e32}.progress-track{height:8px;background:#e2e9dc}.progress-fill{background:#245c46}.step-card{padding:32px;border-radius:24px;border-color:#dce4db;box-shadow:0 12px 36px rgba(23,62,50,.055)}.step-card h2{font-size:clamp(1.25rem,3vw,1.5rem);line-height:1.35;letter-spacing:-.035em;text-wrap:balance}.step-card p.subtitle{font-size:.94rem;line-height:1.65;margin-bottom:24px}.options-grid{gap:12px;margin-top:24px}.option-item{min-width:0;padding:22px 12px 18px;border-radius:18px;border-width:1.5px;gap:10px;transition:background .18s,border-color .18s}.option-item:hover{background:#f6f7f2;border-color:#245c46}.option-item.selected{background:#f2f7e8;border-color:#245c46;box-shadow:inset 0 0 0 1px #245c46}.option-item .icon{width:60px;height:60px}.option-item .icon svg{stroke:#245c46}.option-item.selected .check{background:#173e32;border-color:#173e32}.textBox{gap:14px}.textBox input,select.custom-select{min-width:0;min-height:56px;padding:15px 16px;border-radius:16px;color:#173e32;font-size:16px;background:#fff}.textBox input:focus,select.custom-select:focus{box-shadow:0 0 0 4px rgba(36,92,70,.1)}.textBox input:disabled{background:#f0f3ed;color:#68786d}.add-more{min-height:44px;display:inline-flex;align-items:center;line-height:1.5}.do-empty{min-height:44px;align-items:center}.do-empty .check-box-custom{flex:0 0 22px;width:22px;height:22px;border-color:#7b8e80}.do-empty p{font-size:.88rem;line-height:1.5}.upload-box{width:180px;height:180px;border-radius:24px;border-color:#7b987b;background:#f6f7f2}.upload-box:hover{background:#f2f7e8}.totalFans{background:#f2f7e8;border-color:#dce4db;border-radius:16px}.step-actions{gap:10px;margin-top:28px}button.btn-prev,button.btn-next,button.btn-emitir-custom{min-width:0;min-height:54px;padding:14px 16px;border-radius:16px;font-size:.94rem;line-height:1.4}button.btn-next,button.btn-emitir-custom{background:#173e32;box-shadow:0 4px 12px rgba(23,62,50,.12)}button.btn-next:hover,button.btn-emitir-custom:hover{background:#245c46;transform:none}button.btn-prev:hover{background:#f6f7f2}
+@media(max-width:390px){header .content{padding:0 16px;height:72px}.logo-container img.site-logo{width:156px}.btn-voltar-home{font-size:.72rem}main{padding:28px 16px 40px}.journey-intro{margin-bottom:24px}.step-card{padding:24px 18px;border-radius:20px}.options-grid{gap:10px}button.btn-prev,button.btn-next,button.btn-emitir-custom{padding:14px 10px;font-size:.88rem}}
+</style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1598247598188716');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+</head>
+
+<body>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1598247598188716&ev=PageView&noscript=1" alt=""></noscript>
+
+  <header>
+    <div class="content">
+      <!-- SUA LOGO OFICIAL -->
+      <a class='logo-container' href='/'>
+        <img src="/assets/carteira-identidade-pet.svg" alt="Carteira de Identidade Pet" class="site-logo">
+      </a>
+
+      <a class='btn-voltar-home' href='/'>
+        ← Voltar ao Início
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="journey-intro" aria-labelledby="registration-title">
+      <span class="journey-eyebrow">Carteira de Identidade Pet</span>
+      <h1 id="registration-title">Ele é da família.<br>A identidade também pode ser.</h1>
+      <p>Personalize os documentos do seu pet, com QR Code e perfil digital. Um passo de cada vez.</p>
+    </section>
+
+    <div class="progress-bar-container">
+      <div class="progress-info">
+        <span id="step-label">Passo 1 de 12</span>
+        <span id="step-percentage">8%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- PASSO 1: ESPÉCIE -->
+    <div class="step-card active" data-step="1">
+      <h2>Qual é a espécie do seu pet?</h2>
+      <p class="subtitle">Vamos começar por quem faz parte da sua família.</p>
+      
+      <div class="options-grid">
+        <!-- Cachorro -->
+        <div class="option-item" data-val="Cachorro">
+          <div class="icon">
+            <img src="/assets/cachorro-icon.png" alt="Cachorro" class="species-icon-img">
+          </div>
+          <p>Cachorro</p>
+          <span class="check"><svg viewBox="0 0 16 16"><path d="M13.7 3.2L6.9 12.7 2.2 9l1.2-1.3 3.5 2.7 5.6-7.1 1.2.9z"/></svg></span>
+        </div>
+
+        <!-- Gato -->
+        <div class="option-item" data-val="Gato">
+          <div class="icon">
+            <img src="/assets/gato-icon.png" alt="Gato" class="species-icon-img">
+          </div>
+          <p>Gato</p>
+          <span class="check"><svg viewBox="0 0 16 16"><path d="M13.7 3.2L6.9 12.7 2.2 9l1.2-1.3 3.5 2.7 5.6-7.1 1.2.9z"/></svg></span>
+        </div>
+
+        <!-- Pássaro -->
+        <div class="option-item" data-val="Pássaro">
+          <div class="icon">
+            <img src="/assets/passaro-icon.png" alt="Pássaro" class="species-icon-img">
+          </div>
+          <p>Pássaro</p>
+          <span class="check"><svg viewBox="0 0 16 16"><path d="M13.7 3.2L6.9 12.7 2.2 9l1.2-1.3 3.5 2.7 5.6-7.1 1.2.9z"/></svg></span>
+        </div>
+
+        <!-- Outros -->
+        <div class="option-item" data-val="Outros">
+          <div class="icon">
+            <img src="/assets/outros-icon.png" alt="Outros" class="species-icon-img">
+          </div>
+          <p>Outros</p>
+          <span class="check"><svg viewBox="0 0 16 16"><path d="M13.7 3.2L6.9 12.7 2.2 9l1.2-1.3 3.5 2.7 5.6-7.1 1.2.9z"/></svg></span>
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-next" onclick="nextStep(2)">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASSO 2: NOME DO PET -->
+    <div class="step-card" data-step="2">
+      <h2>Como seu pet se chama?</h2>
+      <p class="subtitle">Escreva o nome como você quer nos documentos.</p>
+      
+      <div class="textBox">
+        <input type="text" name="name-pet" placeholder="Ex: Pipoca, Thor, Mel..." autofocus>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-prev" onclick="prevStep(1)">Voltar</button>
+        <button type="button" class="btn-next" onclick="validateAndNext(2, 'name-pet', 'Por favor, digite o nome do pet.')">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASSO 3: RESPONSÁVEIS -->
+    <div class="step-card" data-step="3">
+      <h2>Quem cuida do seu pet?</h2>
+      <p class="subtitle">Informe o nome do responsável. Você pode incluir mais uma pessoa.</p>
+      
+      <div class="textBox">
+        <input type="text" name="name-user" placeholder="Nome do Tutor Principal">
+        <input type="text" name="name-user2" id="inputResp2" placeholder="Nome do Segundo Tutor (Opcional)" style="display: none;">
+      </div>
+      <span class="add-more" id="btnAddResp" onclick="mostrarSegundoTutor()">+ Adicionar outro responsável</span>
+
+      <div class="step-actions">
+        <button type="button" class="btn-prev" onclick="prevStep(2)">Voltar</button>
+        <button type="button" class="btn-next" onclick="validateAndNext(3, 'name-user', 'Por favor, digite o nome do responsável.')">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASSO 4: CIDADE -->
+    <div class="step-card" data-step="4">
+      <h2>Em qual cidade vocês moram?</h2>
+      <p class="subtitle">Cidade e estado onde vocês residem</p>
+      
+      <div class="textBox">
+        <input type="text" name="cidade-pet" placeholder="Ex: São Paulo - SP">
+      </div>
+
+      <div class="do-empty" onclick="toggleEmpty(this, 'cidade-pet')">
+        <div class="check-box-custom"><svg viewBox="0 0 16 16"><path d="M13.7 3.2L6.9 12.7 2.2 9l1.2-1.3 3.5 2.7 5.6-7.1 1.2.9z"/></svg></div>
+        <p>Continuar sem preencher cidade</p>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-prev" onclick="prevStep(3)">Voltar</button>
+        <button type="button" class="btn-next" onclick="nextStep(5)">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASSO 5: ENDEREÇO -->
+    <div class="step-card" data-step="5">
+      <h2>Digite o endereço</h2>
+      <p class="subtitle">Opcional para impressão no verso do documento</p>
+      
+      <div class="textBox">
+        <input type="text" name="endereco-pet" placeholder="Rua Exemplo, 123 - Bairro">
+      </div>
+
+      <div class="do-empty" onclick="toggleEmpty(this, 'endereco-pet')">
+        <div class="check-box-custom"><svg viewBox="0 0 16 16"><path d="M13.7 3.2L6.9 12.7 2.2 9l1.2-1.3 3.5 2.7 5.6-7.1 1.2.9z"/></svg></div>
+        <p>Continuar sem preencher endereço</p>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-prev" onclick="prevStep(4)">Voltar</button>
+        <button type="button" class="btn-next" onclick="nextStep(6)">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASSO 6: RAÇA -->
+    <div class="step-card" data-step="6">
+      <h2>Qual é a raça do seu pet?</h2>
+      <p class="subtitle">Informe a raça ou selecione sem raça definida</p>
+      
+      <div class="textBox">
+        <input type="text" name="raca-pet" placeholder="Ex: Shih Tzu, Poodle, Labrador...">
+      </div>
+
+      <div class="do-empty" onclick="toggleSRD(this)">
+        <div class="check-box-custom"><svg viewBox="0 0 16 16"><path d="M13.7 3.2L6.9 12.7 2.2 9l1.2-1.3 3.5 2.7 5.6-7.1 1.2.9z"/></svg></div>
+        <p>Sem raça definida (SRD / Vira-lata)</p>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-prev" onclick="prevStep(5)">Voltar</button>
+        <button type="button" class="btn-next" onclick="nextStep(7)">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASSO 7: SEXO (COM ÍCONES EM HTML / SVG NATIVO) -->
+    <div class="step-card" data-step="7">
+      <h2>Qual é o sexo do seu pet?</h2>
+      <p class="subtitle">Essa informação fará parte da identificação do seu pet.</p>
+      
+      <div class="options-grid">
+        <!-- Macho -->
+        <div class="option-item" data-val="Macho">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2d7a3a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="10" cy="14" r="5"></circle>
+              <line x1="19" y1="5" x2="13.6" y2="10.4"></line>
+              <polyline points="15 5 19 5 19 9"></polyline>
+            </svg>
+          </div>
+          <p>Macho</p>
+          <span class="check"><svg viewBox="0 0 16 16"><path d="M13.7 3.2L6.9 12.7 2.2 9l1.2-1.3 3.5 2.7 5.6-7.1 1.2.9z"/></svg></span>
+        </div>
+
+        <!-- Fêmea -->
+        <div class="option-item" data-val="Fêmea">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2d7a3a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="9" r="5"></circle>
+              <line x1="12" y1="14" x2="12" y2="21"></line>
+              <line x1="9" y1="18" x2="15" y2="18"></line>
+            </svg>
+          </div>
+          <p>Fêmea</p>
+          <span class="check"><svg viewBox="0 0 16 16"><path d="M13.7 3.2L6.9 12.7 2.2 9l1.2-1.3 3.5 2.7 5.6-7.1 1.2.9z"/></svg></span>
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-prev" onclick="prevStep(6)">Voltar</button>
+        <button type="button" class="btn-next" onclick="nextStep(8)">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASSO 8: NASCIMENTO -->
+    <div class="step-card" data-step="8">
+      <h2>Data de nascimento do pet</h2>
+      <p class="subtitle">Não sabe o dia exato? Use uma data aproximada ou siga sem preencher.</p>
+      
+      <div class="textBox">
+        <input type="text" name="nascimento-pet" placeholder="DD/MM/AAAA" maxlength="10" oninput="maskDate(this)">
+      </div>
+
+      <div class="do-empty" onclick="toggleEmpty(this, 'nascimento-pet')">
+        <div class="check-box-custom"><svg viewBox="0 0 16 16"><path d="M13.7 3.2L6.9 12.7 2.2 9l1.2-1.3 3.5 2.7 5.6-7.1 1.2.9z"/></svg></div>
+        <p>Continuar sem a data de nascimento</p>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-prev" onclick="prevStep(7)">Voltar</button>
+        <button type="button" class="btn-next" onclick="nextStep(9)">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASSO 9: FOTO DO PET -->
+    <div class="step-card" data-step="9">
+      <h2>Escolha uma foto do seu pet</h2>
+      <p class="subtitle">Prefira uma foto nítida do rostinho para a identidade e o perfil digital.</p>
+      
+      <div class="upload-container">
+        <div class="upload-box" onclick="document.getElementById('pet-photo-input').click()">
+          <img src="" id="preview-img" alt="Foto do pet">
+          <div class="upload-prompt" id="upload-prompt">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+            <span>Escolher foto</span>
+          </div>
+        </div>
+        <input type="file" id="pet-photo-input" accept="image/*" onchange="previewFile(event)">
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-prev" onclick="prevStep(8)">Voltar</button>
+        <button type="button" class="btn-next" onclick="nextStep(10)">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASSO 10: E-MAIL -->
+    <div class="step-card" data-step="10">
+      <h2>Qual é o seu e-mail?</h2>
+      <p class="subtitle">Confira com atenção o e-mail para acesso aos documentos e ao perfil digital.</p>
+      
+      <div class="textBox">
+        <input type="email" name="email-user" placeholder="seu-email@exemplo.com">
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-prev" onclick="prevStep(9)">Voltar</button>
+        <button type="button" class="btn-next" onclick="validateAndNext(10, 'email-user', 'Por favor, informe seu e-mail para receber os documentos.')">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASSO 11: WHATSAPP / CELULAR -->
+    <div class="step-card" data-step="11">
+      <h2>Como entrar em contato com você?</h2>
+      <p class="subtitle">Informe seu celular ou WhatsApp para compor o contato do responsável.</p>
+      
+      <div class="textBox">
+        <input type="tel" name="cel-user" placeholder="(00) 90000-0000" maxlength="15" oninput="maskPhone(this)">
+      </div>
+
+      <div class="do-empty" onclick="toggleEmpty(this, 'cel-user')">
+        <div class="check-box-custom"><svg viewBox="0 0 16 16"><path d="M13.7 3.2L6.9 12.7 2.2 9l1.2-1.3 3.5 2.7 5.6-7.1 1.2.9z"/></svg></div>
+        <p>Continuar sem celular</p>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" class="btn-prev" onclick="prevStep(10)">Voltar</button>
+        <button type="button" class="btn-next" onclick="nextStep(12)">Continuar →</button>
+      </div>
+    </div>
+
+    <!-- PASSO 12: TIME DO CORAÇÃO -->
+    <div class="step-card" data-step="12">
+      <h2>Seu pet torce para algum time?</h2>
+      <p class="subtitle">Um detalhe opcional para deixar a identificação com a cara da família.</p>
+      
+      <div class="textBox">
+        <select name="time-torcedor" class="custom-select" onchange="changeTime(this)">
+          <option value="nao">Não possui time</option>
+          <option value="Flamengo">Flamengo</option>
+          <option value="Corinthians">Corinthians</option>
+          <option value="Palmeiras">Palmeiras</option>
+          <option value="São Paulo">São Paulo</option>
+          <option value="Vasco">Vasco</option>
+          <option value="Santos">Santos</option>
+          <option value="Grêmio">Grêmio</option>
+          <option value="Internacional">Internacional</option>
+          <option value="Cruzeiro">Cruzeiro</option>
+          <option value="Atlético-MG">Atlético Mineiro</option>
+          <option value="Botafogo">Botafogo</option>
+          <option value="Fluminense">Fluminense</option>
+          <option value="Bahia">Bahia</option>
+          <option value="Fortaleza">Fortaleza</option>
+        </select>
+      </div>
+
+      <div class="totalFans" id="fanBox">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <p><span id="fanPetName">Seu Pet</span> terá um detalhe decorativo do <strong id="fanTeamName">clube</strong>!</p>
+      </div>
+
+      <div class="emission-fee" role="note"><span>Taxa única de emissão</span><strong>R$ 19,90</strong><p>Pagamento único para emitir o pacote de documentos do seu pet.</p></div>
+      <div class="step-actions">
+        <button type="button" class="btn-prev" onclick="prevStep(11)">Voltar</button>
+        <button type="button" class="btn-emitir-custom" onclick="salvarDadosEFinalizar()">
+          Sim, pagar a taxa única
+          <svg viewBox="0 0 16 16"><path d="M13.7 3.2L6.9 12.7 2.2 9l1.2-1.3 3.5 2.7 5.6-7.1 1.2.9z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <p class="journey-note">Documentos personalizados de identificação pet.</p>
+  </main>
+
+  <script>
+    let currentStep = 1;
+    const totalSteps = 12;
+
+    let formData = {
+      especie: 'Cachorro',
+      sexo: 'Macho',
+      fotoBase64: ''
+    };
+
+    document.querySelectorAll('.step-card[data-step="1"] .option-item').forEach(item => {
+      if (item.dataset.val === 'Cachorro') item.classList.add('selected');
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.step-card[data-step="1"] .option-item').forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+        formData.especie = item.dataset.val;
+      });
+    });
+
+    document.querySelectorAll('.step-card[data-step="7"] .option-item').forEach(item => {
+      if (item.dataset.val === 'Macho') item.classList.add('selected');
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.step-card[data-step="7"] .option-item').forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+        formData.sexo = item.dataset.val;
+      });
+    });
+
+    function showStep(step) {
+      document.querySelectorAll('.step-card').forEach(card => card.classList.remove('active'));
+      const activeCard = document.querySelector(`.step-card[data-step="${step}"]`);
+      if (activeCard) {
+        activeCard.classList.add('active');
+        currentStep = step;
+        updateProgress();
+
+        const input = activeCard.querySelector('input[type="text"], input[type="email"], input[type="tel"]');
+        if (input) input.focus();
+      }
+    }
+
+    function nextStep(step) { showStep(step); }
+    function prevStep(step) { showStep(step); }
+
+    function updateProgress() {
+      const percentage = Math.round((currentStep / totalSteps) * 100);
+      document.getElementById('step-label').innerText = `Passo ${currentStep} de ${totalSteps}`;
+      document.getElementById('step-percentage').innerText = `${percentage}%`;
+      document.getElementById('progress-fill').style.width = `${percentage}%`;
+    }
+
+    function validateAndNext(step, inputName, errorMsg) {
+      const input = document.querySelector(`input[name="${inputName}"]`);
+      if (!input || !input.value.trim()) {
+        alert(errorMsg);
+        if (input) input.focus();
+        return;
+      }
+      nextStep(step + 1);
+    }
+
+    function mostrarSegundoTutor() {
+      const input = document.getElementById('inputResp2');
+      const btn = document.getElementById('btnAddResp');
+      input.style.display = 'block';
+      input.focus();
+      btn.style.display = 'none';
+    }
+
+    function toggleEmpty(wrapper, inputName) {
+      wrapper.classList.toggle('checked');
+      const input = document.querySelector(`input[name="${inputName}"]`);
+      if (wrapper.classList.contains('checked')) {
+        input.value = '';
+        input.disabled = true;
+      } else {
+        input.disabled = false;
+        input.focus();
+      }
+    }
+
+    function toggleSRD(wrapper) {
+      wrapper.classList.toggle('checked');
+      const input = document.querySelector('input[name="raca-pet"]');
+      if (wrapper.classList.contains('checked')) {
+        input.value = 'Sem raça definida (SRD)';
+        input.disabled = true;
+      } else {
+        input.value = '';
+        input.disabled = false;
+        input.focus();
+      }
+    }
+
+    function maskDate(input) {
+      let v = input.value.replace(/\D/g, '').slice(0, 8);
+      if (v.length >= 5) {
+        input.value = v.replace(/(\d{2})(\d{2})(\d{1,4})/, '$1/$2/$3');
+      } else if (v.length >= 3) {
+        input.value = v.replace(/(\d{2})(\d{1,2})/, '$1/$2');
+      } else {
+        input.value = v;
+      }
+    }
+
+    function maskPhone(input) {
+      let v = input.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 10) {
+        input.value = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+      } else if (v.length > 6) {
+        input.value = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/, '($1) $2-$3');
+      } else if (v.length > 2) {
+        input.value = v.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
+      } else {
+        input.value = v;
+      }
+    }
+
+    function previewFile(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const previewImg = document.getElementById('preview-img');
+          const prompt = document.getElementById('upload-prompt');
+          previewImg.src = e.target.result;
+          previewImg.style.display = 'block';
+          prompt.style.display = 'none';
+          formData.fotoBase64 = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function changeTime(select) {
+      const petName = document.querySelector('input[name="name-pet"]').value.trim() || 'Seu Pet';
+      const box = document.getElementById('fanBox');
+      if (select.value !== 'nao') {
+        document.getElementById('fanPetName').innerText = petName;
+        document.getElementById('fanTeamName').innerText = select.options[select.selectedIndex].text;
+        box.classList.add('active');
+      } else {
+        box.classList.remove('active');
+      }
+    }
+
+    function salvarDadosEFinalizar() {
+      const nomePet = document.querySelector('input[name="name-pet"]').value.trim() || 'Meu Pet';
+      const resp1 = document.querySelector('input[name="name-user"]').value.trim();
+      const resp2 = document.querySelector('input[name="name-user2"]').value.trim();
+      const cidade = document.querySelector('input[name="cidade-pet"]').value.trim();
+      const endereco = document.querySelector('input[name="endereco-pet"]').value.trim();
+      const raca = document.querySelector('input[name="raca-pet"]').value.trim() || 'Sem raça definida';
+      const nascimento = document.querySelector('input[name="nascimento-pet"]').value.trim();
+      const email = document.querySelector('input[name="email-user"]').value.trim();
+      const celular = document.querySelector('input[name="cel-user"]').value.trim();
+      const time = document.querySelector('select[name="time-torcedor"]').value;
+
+      const randomNum = Math.floor(10000 + Math.random() * 90000);
+      const randomDigit = Math.floor(1 + Math.random() * 9);
+      const petId = `${randomNum}-${randomDigit}`;
+
+      const petRegistration = {
+        id: petId,
+        especie: formData.especie,
+        sexo: formData.sexo,
+        name: nomePet,
+        responsavel1: resp1,
+        responsavel2: resp2,
+        cidade: cidade,
+        endereco: endereco,
+        raca: raca,
+        nascimento: nascimento,
+        photo: formData.fotoBase64 || '',
+        email: email,
+        celular: celular,
+        time: time
+      };
+
+      sessionStorage.setItem('petRegistration', JSON.stringify(petRegistration));
+      window.location.href = window.PetCheckout.buildUrl();
+    }
+  </script>
+
+  <script src="/assets/checkout.js"></script>
+</body>
+</html>
