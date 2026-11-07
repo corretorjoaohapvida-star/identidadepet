@@ -4,6 +4,5 @@
   "buildCommand": "",
   "outputDirectory": ".",
   "cleanUrls": true,
-  "trailingSlash": true,
-  "public": false
+  "trailingSlash": true
 }
